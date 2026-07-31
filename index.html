@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMİR | Official</title>
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+            background: #0d0d0d;
+        }
+
+        /* Arka Plan GIF */
+        .bg-gif {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.pinimg.com/originals/75/eb/05/75eb058f53774fa8b5c7cce736ce24d9.gif') no-repeat center center/cover;
+            z-index: 1;
+            filter: brightness(0.55) contrast(1.1);
+        }
+
+        /* Kalp Yağmuru Canvas */
+        #heartCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Overlay Kaplama */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* Giriş Ekranı */
+        #enter-screen {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 5, 12, 0.88);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .enter-btn {
+            background: rgba(255, 102, 204, 0.1);
+            color: #ff85d4;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 18px 45px;
+            border: 2px solid #ff66cc;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff66cc, inset 0 0 15px rgba(255, 102, 204, 0.3);
+            text-shadow: 0 0 12px #ff66cc;
+            transition: all 0.4s ease;
+        }
+
+        .enter-btn:hover {
+            background: #ff66cc;
+            color: #fff;
+            box-shadow: 0 0 35px #ff66cc, 0 0 60px #ff1493;
+            text-shadow: 0 0 10px #fff;
+            transform: scale(1.08);
+        }
+
+        /* Ana İçerik Kartı */
+        .card {
+            background: rgba(25, 10, 25, 0.68);
+            border: 2px solid rgba(255, 133, 212, 0.45);
+            border-radius: 30px;
+            padding: 28px 40px;
+            text-align: center;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 0 35px rgba(255, 102, 204, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            max-width: 92%;
+            width: 480px;
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .card.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Pembe Tatlı EMİR Logosu */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .logo-heart {
+            font-size: 2.5rem;
+            animation: heartPulse 1.5s infinite ease-in-out alternate;
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff66cc); }
+            100% { transform: scale(1.2); filter: drop-shadow(0 0 15px #ff1493); }
+        }
+
+        /* Belleza Fontu */
+        .logo-text {
+            font-family: 'Belleza', sans-serif;
+            font-size: 4.8rem;
+            letter-spacing: 8px;
+            line-height: 1;
+            display: flex;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        /* Harf Harf Yanıp Sönen LED Efekti */
+        .led-letter {
+            color: #ffb3e6;
+            animation: ledBlink 1.8s infinite ease-in-out;
+        }
+
+        .led-letter:nth-child(1) { animation-delay: 0.0s; }
+        .led-letter:nth-child(2) { animation-delay: 0.35s; }
+        .led-letter:nth-child(3) { animation-delay: 0.7s; }
+        .led-letter:nth-child(4) { animation-delay: 1.05s; }
+
+        @keyframes ledBlink {
+            0%, 100% {
+                color: #552040;
+                text-shadow: none;
+            }
+            35%, 65% {
+                color: #ffffff;
+                text-shadow: 
+                    0 0 5px #fff,
+                    0 0 12px #ff85d4,
+                    0 0 25px #ff66cc,
+                    0 0 45px #ff1493,
+                    0 0 70px #ff1493;
+            }
+        }
+
+        /* Başında ve Sonunda Emoji Olan İki Satırlı Söz */
+        .sub-quote {
+            color: #ffb3e6;
+            font-size: 1.02rem;
+            font-weight: 600;
+            font-style: italic;
+            letter-spacing: 0.5px;
+            line-height: 1.5;
+            text-shadow: 0 0 8px rgba(255, 102, 204, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Şans Kurabiyesi Kutusu */
+        .game-box {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px dashed rgba(255, 102, 204, 0.5);
+            border-radius: 18px;
+            padding: 12px 15px;
+            margin: 2px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-title {
+            color: #ff99dd;
+            font-size: 0.88rem;
+            font-weight: 700;
+            text-shadow: 0 0 5px #ff66cc;
+        }
+
+        .fortune-display {
+            font-size: 0.92rem;
+            color: #fff;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 8px #ff66cc;
+            font-weight: bold;
+            padding: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn {
+            background: #ff66cc;
+            color: #fff;
+            border: none;
+            padding: 7px 22px;
+            border-radius: 20px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px #ff66cc;
+            transition: all 0.3s ease;
+        }
+
+        .game-btn:hover {
+            background: #ff1493;
+            box-shadow: 0 0 18px #ff1493;
+            transform: scale(1.05);
+        }
+
+        /* Sosyal Medya İkonları */
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ff66cc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ff66cc;
+            font-size: 1.4rem;
+            text-decoration: none;
+            box-shadow: 0 0 10px #ff66cc;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.35);
+        }
+
+        .social-btn:hover {
+            background: #ff66cc;
+            color: #fff;
+            box-shadow: 0 0 25px #ff66cc, 0 0 40px #ff1493;
+            transform: translateY(-4px) scale(1.1);
+        }
+
+        /* Pembe Neon Saat & Tarih */
+        .clock-container {
+            margin-top: 4px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 102, 204, 0.2);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: #ff85d4;
+            font-weight: 700;
+            text-shadow: 0 0 6px #ff66cc;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Arka Plan GIF -->
+    <div class="bg-gif"></div>
+
+    <!-- Kalp Efekt Canvas -->
+    <canvas id="heartCanvas"></canvas>
+
+    <!-- Ses Dosyası -->
+    <audio id="bg-music" loop src="https://cdn.imageurlgenerator.com/uploads/fb7a96f4-e50c-4a79-bb36-4238cd234f42.mp3"></audio>
+
+    <!-- Giriş Ekranı Overlay -->
+    <div id="enter-screen">
+        <button class="enter-btn" onclick="enterSite()">
+            <i class="fa-solid fa-heart" style="margin-right: 10px;"></i> SİTEYE GİR <i class="fa-solid fa-heart" style="margin-left: 10px;"></i>
+        </button>
+    </div>
+
+    <!-- Ana İçerik -->
+    <div class="overlay">
+        <div class="card" id="main-card">
+            
+            <div class="logo-container">
+                <span class="logo-heart">💖</span>
+                <div class="logo-text">
+                    <span class="led-letter">E</span>
+                    <span class="led-letter">M</span>
+                    <span class="led-letter">İ</span>
+                    <span class="led-letter">R</span>
+                </div>
+                <span class="logo-heart">💖</span>
+            </div>
+
+            <!-- Üst ve Alt Satırının Başında & Sonunda Emoji Olan Biçimlendirme -->
+            <div class="sub-quote">
+                <span>🌸 her şeyin güzel olduğu dünyada, ✨</span>
+                <span>💕 sen ışığınla fark yarat 🌸</span>
+            </div>
+
+            <!-- Şans Kurabiyesi Oyunu -->
+            <div class="game-box">
+                <div class="game-title">🥠 Günün Şans Kurabiyesi 🥠</div>
+                <div class="fortune-display" id="cookieText">Bugünkü gizli şans mesajını açmak için tıkla! 💫</div>
+                <button class="game-btn" id="cookieBtn" onclick="openCookie()">Kurabiyeyi Kır 🥠</button>
+            </div>
+            
+            <div class="social-links">
+                <!-- Steam -->
+                <a href="https://steamcommunity.com/id/Emir0x0409/" target="_blank" class="social-btn" title="Steam">
+                    <i class="fa-brands fa-steam"></i>
+                </a>
+                
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/emir_0x0409" target="_blank" class="social-btn" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
+
+            <!-- Anlık Pembe Neon Saat & Tarih Sayacı -->
+            <div class="clock-container">
+                <span id="live-date">00.00.0000</span>
+                <span>•</span>
+                <span id="live-time">00:00:00</span>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Giriş Yapma ve Müzik Başlatma
+        function enterSite() {
+            const enterScreen = document.getElementById('enter-screen');
+            const mainCard = document.getElementById('main-card');
+            const music = document.getElementById('bg-music');
+
+            enterScreen.style.opacity = '0';
+            enterScreen.style.visibility = 'hidden';
+
+            music.play().catch(err => console.log("Müzik çalınamadı: ", err));
+
+            setTimeout(() => {
+                mainCard.classList.add('active');
+            }, 300);
+        }
+
+        // Anlık Neon Saat ve Tarih Fonksiyonu
+        function updateClock() {
+            const now = new Date();
+            
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const year = now.getFullYear();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            document.getElementById('live-date').innerText = `${day}.${month}.${year}`;
+            document.getElementById('live-time').innerText = `${hours}:${minutes}:${seconds}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // 25 Farklı Şans Mesajı İle Genişletilmiş Kurabiye Oyunu
+        const cookieNotes = [
+            "Gülüşün bugün birinin modunu yükseltecek! 😊✨",
+            "Bugün beklemediğin tatlı bir haber var! 💌💖",
+            "Yıldızlar senin tarafında, ne dilersen kabul olsun! 🌟🎀",
+            "Bugün kendine zaman ayır ve parlamaya devam et! 👑🌸",
+            "Bugün etrafına saçacağın enerji paha biçilemez! 💕💫",
+            "Hayallerin düşündüğünden çok daha yakın, devam et! 🚀✨",
+            "Bugün sana özel minik bir sürpriz kapıda olabilir! 🎁💖",
+            "Enerjinle girdiğin her ortamı aydınlatıyorsun! 💫🌸",
+            "Güzel düşünceler, güzel sürprizleri beraberinde getirir! ✨🎀",
+            "Bugün senin günün, harika işler başaracaksın! 👑💫",
+            "Kalbinin güzelliği yüzüne yansıyor, bunu unutma! 🌸✨",
+            "Bugün birine gülümsediğinde dünyası değişebilir! 💖😊",
+            "Modunu yüksek tut, şans bugün tamamen senden yana! 🎲💗",
+            "Kendi yolunda emin adımlarla ilerliyorsun, tebrikler! 🌈✨",
+            "Hayatındaki tatlı tesadüflere hazır ol! 💌🌸",
+            "Etrafına yaydığın pozitif ışık sana katlanarak dönecek! ✨💖",
+            "Kendine inanmak için bundan daha güzel bir gün olamaz! 👑🌸",
+            "Bugün bir kahve iç ve anın tadını çıkar! ☕✨",
+            "İçindeki potansiyel her geçen gün daha da parlıyor! 🌟💗",
+            "Ufak bir adım bile büyük mucizeler getirebilir! 🐾✨",
+            "Bugün günün en şanslı kişisi sen olabilirsin! 🍀💖",
+            "Kararlılığın seni istediğin her yere götürür! 💫🌸",
+            "Senin varlığın etrafındakiler için büyük bir hediye! 🎁💖",
+            "Bugün tüm olumsuzlukları geride bırakma günü! 🌈✨",
+            "Işığını hiçbir şeyin söndürmesine izin verme! 🌟🌸"
+        ];
+
+        let lastIndex = -1;
+
+        function openCookie() {
+            const display = document.getElementById('cookieText');
+            const btn = document.getElementById('cookieBtn');
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            display.innerText = "Kurabiye kırılıyor... 🥠✨";
+
+            setTimeout(() => {
+                let randomIndex;
+                // Peş peşe aynı mesajın gelmesini engelleyen kontrol
+                do {
+                    randomIndex = Math.floor(Math.random() * cookieNotes.length);
+                } while (randomIndex === lastIndex);
+
+                lastIndex = randomIndex;
+
+                display.innerText = cookieNotes[randomIndex];
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.innerText = "Başka Kurabiye Kır 🥠";
+            }, 800);
+        }
+
+        // Kalp Yağmuru ve Fare İnteraktif Canvas Mantığı
+        const canvas = document.getElementById('heartCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let hearts = [];
+        const mouse = { x: null, y: null };
+
+        class Heart {
+            constructor(x, y, isMouse = false) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || (isMouse ? y : -20);
+                this.size = isMouse ? Math.random() * 12 + 6 : Math.random() * 18 + 8;
+                this.speedY = isMouse ? (Math.random() - 0.5) * 2 + 1 : Math.random() * 1.5 + 0.8;
+                this.speedX = (Math.random() - 0.5) * 1.5;
+                this.opacity = 1;
+                this.fade = isMouse ? Math.random() * 0.02 + 0.015 : Math.random() * 0.003 + 0.001;
+                this.color = `hsl(${Math.random() * 25 + 325}, 100%, ${Math.random() * 20 + 70}%)`;
+                this.isMouse = isMouse;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#ff66cc';
+                ctx.beginPath();
+                const topCurveHeight = this.size * 0.3;
+                ctx.moveTo(this.x, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x, this.y, this.x - this.size / 2, this.y, this.x - this.size / 2, this.y + topCurveHeight);
+                ctx.bezierCurveTo(this.x - this.size / 2, this.y + (this.size + topCurveHeight) / 2, this.x, this.y + this.size, this.x, this.y + this.size);
+                ctx.bezierCurveTo(this.x, this.y + (this.size + topCurveHeight) / 2, this.x + this.size / 2, this.y + topCurveHeight, this.x + this.size / 2, this.y);
+                ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.opacity -= this.fade;
+
+                if (this.opacity <= 0 || this.y > canvas.height + 20) {
+                    if (!this.isMouse) {
+                        this.y = -20;
+                        this.x = Math.random() * canvas.width;
+                        this.opacity = 1;
+                    }
+                }
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            hearts.push(new Heart(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+            for (let i = 0; i < 2; i++) {
+                hearts.push(new Heart(mouse.x, mouse.y, true));
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (hearts.filter(h => !h.isMouse).length < 40) {
+                hearts.push(new Heart());
+            }
+
+            for (let i = 0; i < hearts.length; i++) {
+                hearts[i].update();
+                hearts[i].draw();
+
+                if (hearts[i].opacity <= 0) {
+                    hearts.splice(i, 1);
+                    i--;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
