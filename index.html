@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMİR'in Kurabiyeleri</title>
+    <title>EMİR | Official</title>
     <!-- Font Awesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,8 +38,8 @@
             filter: brightness(0.5) contrast(1.1);
         }
 
-        /* Kalp Yağmuru Canvas */
-        #heartCanvas {
+        /* Kalp & Kelebek Canvas */
+        #particleCanvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -143,7 +143,6 @@
             100% { transform: scale(1.2); filter: drop-shadow(0 0 15px #ff1493); }
         }
 
-        /* Belleza Fontu */
         .logo-text {
             font-family: 'Belleza', sans-serif;
             font-size: 4.5rem;
@@ -156,13 +155,13 @@
 
         .led-letter {
             color: #ffb3e6;
-            animation: ledBlink 1.8s infinite ease-in-out;
+            animation: ledBlink 1.0s infinite ease-in-out;
         }
 
         .led-letter:nth-child(1) { animation-delay: 0.0s; }
-        .led-letter:nth-child(2) { animation-delay: 0.35s; }
-        .led-letter:nth-child(3) { animation-delay: 0.7s; }
-        .led-letter:nth-child(4) { animation-delay: 1.05s; }
+        .led-letter:nth-child(2) { animation-delay: 0.2s; }
+        .led-letter:nth-child(3) { animation-delay: 0.4s; }
+        .led-letter:nth-child(4) { animation-delay: 0.6s; }
 
         @keyframes ledBlink {
             0%, 100% { color: #552040; text-shadow: none; }
@@ -174,182 +173,36 @@
 
         .sub-quote {
             color: #ffb3e6;
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.98rem;
+            font-weight: 700;
             font-style: italic;
             letter-spacing: 0.5px;
             line-height: 1.4;
-            text-shadow: 0 0 8px rgba(255, 102, 204, 0.8);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            text-shadow: 0 0 10px rgba(255, 102, 204, 0.9);
+            white-space: nowrap;
         }
 
-        /* --- GERÇEKÇİ ÇİKOLATALI KURABİYE ALANI --- */
-        .cookie-game-container {
+        /* --- 🖼️ GIF ALANI (Eski oyun yerinde) --- */
+        .gif-box-container {
             width: 100%;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1.5px dashed rgba(255, 102, 204, 0.5);
+            background: rgba(10, 0, 15, 0.4);
+            border: 1.5px solid rgba(255, 102, 204, 0.4);
             border-radius: 20px;
-            padding: 15px;
+            padding: 10px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
-            min-height: 180px;
             justify-content: center;
-        }
-
-        .game-instruction {
-            color: #ff85d4;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-shadow: 0 0 5px #ff66cc;
-            transition: opacity 0.3s ease;
-        }
-
-        /* Kurabiye Görsel Wrapper */
-        .cookie-wrapper {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            filter: drop-shadow(0 0 10px rgba(255, 102, 204, 0.3));
-        }
-
-        .cookie-wrapper:hover {
-            transform: scale(1.08);
-        }
-
-        /* Tam Kurabiye Katmanı (İlk Görünüm) */
-        .cookie-full {
-            position: absolute;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 35% 35%, #e8a85c, #bd7024, #87490e);
-            box-shadow: inset -3px -3px 8px rgba(0, 0, 0, 0.4), inset 3px 3px 8px rgba(255, 255, 255, 0.2);
-            z-index: 3;
-            transition: opacity 0.2s ease;
-        }
-
-        /* Çikolata Parçacıkları (Chocolate Chips) */
-        .chip {
-            position: absolute;
-            background: #361908;
-            border-radius: 40% 60% 70% 30% / 50% 60% 40% 50%;
-            box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.3), 1px 1px 3px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Tam Kurabiye Üzerindeki Çikolatalar */
-        .cookie-full .chip-1 { width: 11px; height: 11px; top: 22px; left: 24px; }
-        .cookie-full .chip-2 { width: 13px; height: 10px; top: 68px; left: 18px; }
-        .cookie-full .chip-3 { width: 9px; height: 12px; top: 45px; left: 38px; }
-        .cookie-full .chip-4 { width: 10px; height: 9px; top: 85px; left: 32px; }
-        .cookie-full .chip-5 { width: 12px; height: 11px; top: 25px; right: 22px; }
-        .cookie-full .chip-6 { width: 10px; height: 13px; top: 65px; right: 25px; }
-        .cookie-full .chip-7 { width: 11px; height: 9px; top: 42px; right: 40px; }
-
-        /* Kırılma Parçaları */
-        .cookie-half {
-            position: absolute;
-            width: 55px;
-            height: 110px;
-            background: radial-gradient(circle at 30% 30%, #e8a85c, #bd7024, #87490e);
-            box-shadow: inset -3px -3px 8px rgba(0, 0, 0, 0.4), inset 3px 3px 8px rgba(255, 255, 255, 0.2);
-            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            top: 0;
+            align-items: center;
+            box-shadow: inset 0 0 15px rgba(255, 102, 204, 0.2), 0 0 20px rgba(255, 102, 204, 0.15);
             overflow: hidden;
-            z-index: 2;
         }
 
-        .cookie-left {
-            left: 0;
-            border-radius: 110px 0 0 110px;
-            clip-path: polygon(0% 0%, 100% 0%, 85% 25%, 100% 50%, 80% 75%, 100% 100%, 0% 100%);
-        }
-
-        .cookie-right {
-            right: 0;
-            border-radius: 0 110px 110px 0;
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 15% 75%, 0% 50%, 15% 25%);
-            background: radial-gradient(circle at 70% 30%, #e8a85c, #bd7024, #87490e);
-        }
-
-        /* Parça Çikolataları */
-        .cookie-left .chip-1 { width: 10px; height: 10px; top: 20px; left: 20px; }
-        .cookie-left .chip-2 { width: 12px; height: 9px; top: 65px; left: 15px; }
-        .cookie-left .chip-3 { width: 8px; height: 11px; top: 42px; left: 32px; }
-        .cookie-left .chip-4 { width: 9px; height: 8px; top: 88px; left: 28px; }
-
-        .cookie-right .chip-1 { width: 11px; height: 10px; top: 25px; right: 18px; }
-        .cookie-right .chip-2 { width: 9px; height: 12px; top: 70px; right: 22px; }
-        .cookie-right .chip-3 { width: 12px; height: 9px; top: 48px; right: 30px; }
-        .cookie-right .chip-4 { width: 8px; height: 8px; top: 85px; right: 12px; }
-
-        /* Kırılma Efekti Sınıfları */
-        .cookie-wrapper.broken .cookie-full {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .cookie-wrapper.broken .cookie-left {
-            transform: translateX(-50px) rotate(-28deg);
-            opacity: 0.85;
-        }
-
-        .cookie-wrapper.broken .cookie-right {
-            transform: translateX(50px) rotate(28deg);
-            opacity: 0.85;
-        }
-
-        /* İçinden Çıkan Şans Kağıdı */
-        .fortune-paper {
-            position: absolute;
-            background: #fff0f5;
-            color: #8b004b;
-            border: 2px solid #ff66cc;
-            border-radius: 12px;
-            padding: 10px 15px;
-            font-size: 0.88rem;
-            font-weight: 700;
-            box-shadow: 0 0 20px rgba(255, 102, 204, 0.8);
-            max-width: 90%;
-            text-align: center;
-            opacity: 0;
-            transform: scale(0.2) translateY(20px);
-            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        .fortune-paper.show {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-            pointer-events: auto;
-        }
-
-        .reset-btn {
-            background: #ff66cc;
-            color: #fff;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 15px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            margin-top: 8px;
-            cursor: pointer;
-            box-shadow: 0 0 8px #ff66cc;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .reset-btn:hover {
-            background: #ff1493;
-            transform: scale(1.05);
+        .custom-gif {
+            width: 100%;
+            max-height: 220px;
+            object-fit: cover;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 133, 212, 0.5);
+            box-shadow: 0 0 15px rgba(255, 102, 204, 0.3);
         }
 
         /* Sosyal Medya İkonları */
@@ -428,7 +281,7 @@
 <body>
 
     <div class="bg-gif"></div>
-    <canvas id="heartCanvas"></canvas>
+    <canvas id="particleCanvas"></canvas>
 
     <audio id="bg-music" loop src="https://cdn.imageurlgenerator.com/uploads/fb7a96f4-e50c-4a79-bb36-4238cd234f42.mp3"></audio>
 
@@ -453,46 +306,12 @@
             </div>
 
             <div class="sub-quote">
-                <span>🌸 her şeyin güzel olduğu dünyada, ✨</span>
-                <span>💕 sen ışığınla fark yarat 🌸</span>
+                🌟 Işığını hiçbir şeyin söndürmesine izin verme! 🌸
             </div>
 
-            <!-- Çikolatalı Gerçekçi Kurabiye Oyunu -->
-            <div class="cookie-game-container">
-                <div class="game-instruction" id="cookieHint">Kurabiyeyi kırmak için üzerine tıkla! 🍪</div>
-                
-                <div class="cookie-wrapper" id="cookieObj" onclick="breakCookie()">
-                    <!-- Kırılmamış Tam Kurabiye Katmanı -->
-                    <div class="cookie-full">
-                        <div class="chip chip-1"></div>
-                        <div class="chip chip-2"></div>
-                        <div class="chip chip-3"></div>
-                        <div class="chip chip-4"></div>
-                        <div class="chip chip-5"></div>
-                        <div class="chip chip-6"></div>
-                        <div class="chip chip-7"></div>
-                    </div>
-
-                    <!-- Kırılma Parçaları -->
-                    <div class="cookie-half cookie-left">
-                        <div class="chip chip-1"></div>
-                        <div class="chip chip-2"></div>
-                        <div class="chip chip-3"></div>
-                        <div class="chip chip-4"></div>
-                    </div>
-                    <div class="cookie-half cookie-right">
-                        <div class="chip chip-1"></div>
-                        <div class="chip chip-2"></div>
-                        <div class="chip chip-3"></div>
-                        <div class="chip chip-4"></div>
-                    </div>
-                </div>
-
-                <div class="fortune-paper" id="fortunePaper">
-                    <span id="paperText">...</span>
-                    <br>
-                    <button class="reset-btn" onclick="resetCookie()">Yeniden Kır 🍪</button>
-                </div>
+            <!-- 🖼️ ÖZEL GIF ALANI -->
+            <div class="gif-box-container">
+                <img src="https://cdn.imageurlgenerator.com/uploads/3fdf4536-a619-40d1-9483-5355d59855c1.gif" alt="Special GIF" class="custom-gif">
             </div>
             
             <div class="social-links">
@@ -579,81 +398,8 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // 25 Farklı Şans Mesajı
-        const cookieNotes = [
-            "Gülüşün bugün birinin modunu yükseltecek! 😊✨",
-            "Bugün beklemediğin tatlı bir haber var! 💌💖",
-            "Yıldızlar senin tarafında, ne dilersen kabul olsun! 🌟🎀",
-            "Bugün kendine zaman ayır ve parlamaya devam et! 👑🌸",
-            "Bugün etrafına saçacağın enerji paha biçilemez! 💕💫",
-            "Hayallerin düşündüğünden çok daha yakın, devam et! 🚀✨",
-            "Bugün sana özel minik bir sürpriz kapıda olabilir! 🎁💖",
-            "Enerjinle girdiğin her ortamı aydınlatıyorsun! 💫🌸",
-            "Güzel düşünceler, güzel sürprizleri beraberinde getirir! ✨🎀",
-            "Bugün senin günün, harika işler başaracaksın! 👑💫",
-            "Kalbinin güzelliği yüzüne yansıyor, bunu unutma! 🌸✨",
-            "Bugün birine gülümsediğinde dünyası değişebilir! 💖😊",
-            "Modunu yüksek tut, şans bugün tamamen senden yana! 🎲💗",
-            "Kendi yolunda emin adımlarla ilerliyorsun, tebrikler! 🌈✨",
-            "Hayatındaki tatlı tesadüflere hazır ol! 💌🌸",
-            "Etrafına yaydığın pozitif ışık sana katlanarak dönecek! ✨💖",
-            "Kendine inanmak için bundan daha güzel bir gün olamaz! 👑🌸",
-            "Bugün bir kahve iç ve anın tadını çıkar! ☕✨",
-            "İçindeki potansiyel her geçen gün daha da parlıyor! 🌟💗",
-            "Ufak bir adım bile büyük mucizeler getirebilir! 🐾✨",
-            "Bugün günün en şanslı kişisi sen olabilirsin! 🍀💖",
-            "Kararlılığın seni istediğin her yere götürür! 💫🌸",
-            "Senin varlığın etrafındakiler için büyük bir hediye! 🎁💖",
-            "Bugün tüm olumsuzlukları geride bırakma günü! 🌈✨",
-            "Işığını hiçbir şeyin söndürmesine izin verme! 🌟🌸"
-        ];
-
-        let lastIndex = -1;
-        let isBroken = false;
-
-        function breakCookie() {
-            if (isBroken) return;
-            isBroken = true;
-
-            const cookieObj = document.getElementById('cookieObj');
-            const fortunePaper = document.getElementById('fortunePaper');
-            const paperText = document.getElementById('paperText');
-            const cookieHint = document.getElementById('cookieHint');
-
-            // Kurabiyeyi Çatlat
-            cookieObj.classList.add('broken');
-            cookieHint.style.opacity = '0';
-
-            // Rastgele mesaj seç
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * cookieNotes.length);
-            } while (randomIndex === lastIndex);
-            lastIndex = randomIndex;
-
-            // Kağıdı çıkar
-            setTimeout(() => {
-                paperText.innerText = cookieNotes[randomIndex];
-                fortunePaper.classList.add('show');
-            }, 300);
-        }
-
-        function resetCookie() {
-            const cookieObj = document.getElementById('cookieObj');
-            const fortunePaper = document.getElementById('fortunePaper');
-            const cookieHint = document.getElementById('cookieHint');
-
-            fortunePaper.classList.remove('show');
-
-            setTimeout(() => {
-                cookieObj.classList.remove('broken');
-                cookieHint.style.opacity = '1';
-                isBroken = false;
-            }, 400);
-        }
-
-        // --- İDEAL BOYUTTA KALP YAĞMURU CANVAS ---
-        const canvas = document.getElementById('heartCanvas');
+        // --- KALP VE RASTGELE SÜZÜLEN KELEBEK CANVAS ---
+        const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
 
         function resizeCanvas() {
@@ -663,14 +409,15 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        let hearts = [];
+        let particles = [];
         const mouse = { x: null, y: null };
 
+        // Kalp Sınıfı
         class Heart {
             constructor(x, y, isMouse = false, randomStart = false) {
+                this.type = 'heart';
                 this.x = x || Math.random() * canvas.width;
                 this.y = y || (randomStart ? Math.random() * canvas.height : -25);
-                // İdeal orta boyut (12px - 18px arası)
                 this.size = isMouse ? Math.random() * 8 + 6 : Math.random() * 8 + 12;
                 this.speedY = isMouse ? (Math.random() - 0.5) * 1.5 + 0.8 : Math.random() * 1.4 + 1.0;
                 this.speedX = (Math.random() - 0.5) * 1.4;
@@ -714,28 +461,92 @@
             }
         }
 
-        // 55 adet ideal boyutta kalp ekranda dengeli akar
-        for (let i = 0; i < 55; i++) {
-            hearts.push(new Heart(null, null, false, true));
+        // Serbest Gezen Kelebek Sınıfı
+        class Butterfly {
+            constructor() {
+                this.type = 'butterfly';
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 6 + 10;
+                this.speedX = (Math.random() - 0.5) * 2.5;
+                this.speedY = (Math.random() - 0.5) * 2.5;
+                this.angle = Math.atan2(this.speedY, this.speedX);
+                this.wingAngle = 0;
+                this.wingSpeed = Math.random() * 0.2 + 0.15;
+                this.opacity = Math.random() * 0.4 + 0.6;
+                this.color = `hsl(${Math.random() * 30 + 325}, 95%, ${Math.random() * 15 + 68}%)`;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle + Math.PI / 2);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#ff66cc';
+
+                const wingScale = Math.sin(this.wingAngle);
+
+                ctx.beginPath();
+                ctx.ellipse(-this.size * 0.6 * Math.abs(wingScale), -this.size * 0.3, this.size * 0.7 * Math.abs(wingScale), this.size * 0.4, Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.ellipse(this.size * 0.6 * Math.abs(wingScale), -this.size * 0.3, this.size * 0.7 * Math.abs(wingScale), this.size * 0.4, -Math.PI / 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(-1, -this.size * 0.5, 2, this.size);
+
+                ctx.restore();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.wingAngle += this.wingSpeed;
+
+                if (Math.random() < 0.03) {
+                    this.speedX += (Math.random() - 0.5) * 1.0;
+                    this.speedY += (Math.random() - 0.5) * 1.0;
+                    
+                    this.speedX = Math.max(-2, Math.min(2, this.speedX));
+                    this.speedY = Math.max(-2, Math.min(2, this.speedY));
+                    
+                    this.angle = Math.atan2(this.speedY, this.speedX);
+                }
+
+                if (this.x < 10 || this.x > canvas.width - 10) this.speedX *= -1;
+                if (this.y < 10 || this.y > canvas.height - 10) this.speedY *= -1;
+            }
+        }
+
+        for (let i = 0; i < 40; i++) {
+            particles.push(new Heart(null, null, false, true));
+        }
+
+        for (let i = 0; i < 18; i++) {
+            particles.push(new Butterfly());
         }
 
         window.addEventListener('mousemove', (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
             for (let i = 0; i < 2; i++) {
-                hearts.push(new Heart(mouse.x, mouse.y, true));
+                particles.push(new Heart(mouse.x, mouse.y, true));
             }
         });
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (let i = 0; i < hearts.length; i++) {
-                hearts[i].update();
-                hearts[i].draw();
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
 
-                if (hearts[i].isMouse && hearts[i].opacity <= 0) {
-                    hearts.splice(i, 1);
+                if (particles[i].isMouse && particles[i].opacity <= 0) {
+                    particles.splice(i, 1);
                     i--;
                 }
             }
