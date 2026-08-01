@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
 
-<!-- Sekme Kalp İkonu (Favicon) -->
+    <!-- Sekme Kalp İkonu (Favicon) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
     
     <style>
@@ -63,6 +63,7 @@
             justify-content: center;
             align-items: center;
             z-index: 10;
+            padding: 10px;
         }
 
         /* Giriş Ekranı */
@@ -77,6 +78,7 @@
             align-items: center;
             z-index: 20;
             transition: opacity 0.8s ease, visibility 0.8s ease;
+            padding: 20px;
         }
 
         .enter-btn {
@@ -107,7 +109,7 @@
             background: rgba(25, 10, 25, 0.68);
             border: 2px solid rgba(255, 133, 212, 0.45);
             border-radius: 30px;
-            padding: 24px 35px;
+            padding: 24px 30px;
             text-align: center;
             backdrop-filter: blur(14px);
             box-shadow: 0 0 35px rgba(255, 102, 204, 0.3);
@@ -115,7 +117,7 @@
             flex-direction: column;
             align-items: center;
             gap: 12px;
-            max-width: 92%;
+            max-width: 95%;
             width: 480px;
             opacity: 0;
             transform: scale(0.85);
@@ -174,6 +176,7 @@
             }
         }
 
+        /* YAZI TAŞMASI DÜZELTİLDİ: normal kelime kaydırması eklendi */
         .sub-quote {
             color: #ffb3e6;
             font-size: 0.98rem;
@@ -182,10 +185,12 @@
             letter-spacing: 0.5px;
             line-height: 1.4;
             text-shadow: 0 0 10px rgba(255, 102, 204, 0.9);
-            white-space: nowrap;
+            white-space: normal;
+            word-wrap: break-word;
+            max-width: 100%;
         }
 
-        /* --- 🖼️ GIF ALANI (Eski oyun yerinde) --- */
+        /* --- 🖼️ GIF ALANI --- */
         .gif-box-container {
             width: 100%;
             background: rgba(10, 0, 15, 0.4);
@@ -279,6 +284,44 @@
             box-shadow: 0 0 15px #ff66cc;
             transform: scale(1.05);
         }
+
+        /* 📱 MOBİL ÖZEL SENKRONİZASYON (RESPONSIVE) */
+        @media screen and (max-width: 500px) {
+            .card {
+                padding: 18px 20px;
+                gap: 10px;
+                border-radius: 24px;
+            }
+
+            .logo-text {
+                font-size: 3.2rem;
+                letter-spacing: 5px;
+            }
+
+            .logo-heart {
+                font-size: 1.8rem;
+            }
+
+            .sub-quote {
+                font-size: 0.88rem;
+                line-height: 1.35;
+            }
+
+            .custom-gif {
+                max-height: 180px;
+            }
+
+            .enter-btn {
+                font-size: 1.3rem;
+                padding: 14px 30px;
+            }
+
+            .social-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -290,7 +333,7 @@
 
     <div id="enter-screen">
         <button class="enter-btn" onclick="enterSite()">
-            <i class="fa-solid fa-heart" style="margin-right: 10px;"></i> SİTEYE GİR <i class="fa-solid fa-heart" style="margin-left: 10px;"></i>
+            <i class="fa-solid fa-heart" style="margin-right: 8px;"></i> SİTEYE GİR <i class="fa-solid fa-heart" style="margin-left: 8px;"></i>
         </button>
     </div>
 
@@ -413,21 +456,20 @@
         resizeCanvas();
 
         let particles = [];
-        const mouse = { x: null, y: null };
 
         // Kalp Sınıfı
         class Heart {
-            constructor(x, y, isMouse = false, randomStart = false) {
+            constructor(x, y, isTouch = false, randomStart = false) {
                 this.type = 'heart';
                 this.x = x || Math.random() * canvas.width;
                 this.y = y || (randomStart ? Math.random() * canvas.height : -25);
-                this.size = isMouse ? Math.random() * 8 + 6 : Math.random() * 8 + 12;
-                this.speedY = isMouse ? (Math.random() - 0.5) * 1.5 + 0.8 : Math.random() * 1.4 + 1.0;
+                this.size = isTouch ? Math.random() * 8 + 6 : Math.random() * 8 + 12;
+                this.speedY = isTouch ? (Math.random() - 0.5) * 1.5 + 0.8 : Math.random() * 1.4 + 1.0;
                 this.speedX = (Math.random() - 0.5) * 1.4;
-                this.opacity = isMouse ? 0.9 : Math.random() * 0.4 + 0.45;
-                this.fade = isMouse ? Math.random() * 0.02 + 0.015 : 0;
+                this.opacity = isTouch ? 0.9 : Math.random() * 0.4 + 0.45;
+                this.fade = isTouch ? Math.random() * 0.02 + 0.015 : 0;
                 this.color = `hsl(${Math.random() * 30 + 325}, 95%, ${Math.random() * 15 + 68}%)`;
-                this.isMouse = isMouse;
+                this.isTouch = isTouch;
             }
 
             draw() {
@@ -452,7 +494,7 @@
                 this.y += this.speedY;
                 this.x += this.speedX;
 
-                if (this.isMouse) {
+                if (this.isTouch) {
                     this.opacity -= this.fade;
                 } else {
                     if (this.y > canvas.height + 25) {
@@ -525,19 +567,28 @@
             }
         }
 
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 30; i++) {
             particles.push(new Heart(null, null, false, true));
         }
 
-        for (let i = 0; i < 18; i++) {
+        for (let i = 0; i < 12; i++) {
             particles.push(new Butterfly());
         }
 
+        // Fare Hareket Takibi
         window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
             for (let i = 0; i < 2; i++) {
-                particles.push(new Heart(mouse.x, mouse.y, true));
+                particles.push(new Heart(e.clientX, e.clientY, true));
+            }
+        });
+
+        // Mobil Dokunma Takibi (Touch Support)
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                const touch = e.touches[0];
+                for (let i = 0; i < 2; i++) {
+                    particles.push(new Heart(touch.clientX, touch.clientY, true));
+                }
             }
         });
 
@@ -548,7 +599,7 @@
                 particles[i].update();
                 particles[i].draw();
 
-                if (particles[i].isMouse && particles[i].opacity <= 0) {
+                if (particles[i].isTouch && particles[i].opacity <= 0) {
                     particles.splice(i, 1);
                     i--;
                 }
